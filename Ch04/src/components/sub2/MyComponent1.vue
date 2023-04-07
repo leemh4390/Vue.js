@@ -14,6 +14,9 @@
         addr : {{user.addr}}
         <button @click="changeUser">수정</button>
     </p>
+    <p>신라사람</p>
+        <ul>
+        </ul>
 </template>
 <script>
 import { ref , reactive } from "vue";
