@@ -1,0 +1,13 @@
+<template lang="">
+  <h3>Ch07.Http 통신과 JWT</h3>
+  <p>
+    <router-link to="/axio">Axios 실습</router-link>
+    <router-link to="/rest">Rest API 실습</router-link>
+    <router-link to="/jwt">JWT 실습</router-link>
+  </p>
+
+  <router-view></router-view>
+
+</template>
+<script setup></script>
+<style scoped></style>
