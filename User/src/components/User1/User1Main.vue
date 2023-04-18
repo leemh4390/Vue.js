@@ -1,0 +1,9 @@
+<template lang="">
+    <h4>User1</h4>
+    <router-link  to="/user1/register">등록</router-link>&nbsp;/
+    <router-link  to="/user1/list">목록</router-link>
+
+    <router-view></router-view>
+</template>
+<script setup></script>
+<style scoped></style>
