@@ -17,7 +17,7 @@
             <td>{{ user.rdate }}</td>
             <td>
                 <a href="#" @click.prevent="modifyUser2(user)">수정</a>
-                <a href="#">삭제</a>
+                <a href="#" @click.prevent="deleteUser2(user)">삭제</a>
             </td>
         </tr>
     </table>
@@ -27,24 +27,41 @@ import axios from "axios";
 import { onBeforeMount, ref } from "vue";
 import { useRouter } from "vue-router";
 
-    const router = useRouter();
-    const user2s = ref([]);
+const router = useRouter();
+const user2s = ref([]);
 
-    const modifyUser2 = (user) => {
-        router.push({name : "User2Modify", params : user});
-    };
+const modifyUser2 = (user) => {
+    router.push({name : "User2Modify", params : user});
+};
 
-    onBeforeMount(()=> {
-        console.log('진입 확인용1');
-        axios
-            .get("http://localhost:8089/Ch09/user2s")
-            .then((response) => {
-                user2s.value = response.data;
-            })
-            .catch((error)=> {
-                console.log("에러발생1!");
-            });
-    });
+const deleteUser2 = (user) => {
+    const result = confirm("정말 삭제?");
+    
+    if(!result){
+        return;
+    }else{
+        axios.
+        delete(`http://localhost:8089/Ch09/user2/${user.uid}`).
+        then((response)=>{
+            user2s.value = response.data;
+        }).
+        catch((error)=>{
+            console.log(error);
+        });
+    }
+};
+
+onBeforeMount(()=> {
+    console.log('진입 확인용1');
+    axios
+        .get("http://localhost:8089/Ch09/user2s")
+        .then((response) => {
+            user2s.value = response.data;
+        })
+        .catch((error)=> {
+            console.log("에러발생1!");
+        });
+});
 
 
 

@@ -54,12 +54,12 @@ const user2 = reactive({
 const user2Modify = () => {
     
     axios.
-        put("http://localhost:8089/Ch09/user2", user2).
-        then((response)=>{
+        put("http://localhost:8089/Ch09/user2", user2)
+        .then((response)=>{
             alert("수정완료!");
             router.push("/user2/list");
-        }).
-        catch((error)=>{
+        })
+        .catch((error)=>{
             alert("캔슬 실패");
             console.log("에러 발생");
         });

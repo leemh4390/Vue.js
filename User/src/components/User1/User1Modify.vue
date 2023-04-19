@@ -44,7 +44,7 @@ const user = reactive({
 });
 const user1Modify = () => {
   axios
-    .put("http://localhost:8080/Ch09/user1", user)
+    .put("http://localhost:8089/Ch09/user1", user)
     .then((response) => {
       alert("수정완료!");
       router.push("/user1/list");
