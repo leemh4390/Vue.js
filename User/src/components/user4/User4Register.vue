@@ -4,13 +4,13 @@
         <table border="1">
             <tr>
                 <td>이름</td>
-                <td><input type="text" v-model="user4.uid"></td>
+                <td><input type="text" v-model="user4.name"></td>
             </tr>
             <tr>
                 <td>성별</td>
                 <td>
-                    <input type="radio" name="gender" value="1" checked="checked">남자
-                    <input type="radio" name="gender" value="2">여자
+                    <input type="radio" name="gender" v-model="user4.gender" value="1" checked="checked">남자
+                    <input type="radio" name="gender" v-model="user4.gender" value="2">여자
                 </td>
             </tr>
             <tr>
@@ -43,12 +43,14 @@ const user4 = reactive({
     name : "",
     age : 0,
     addr : "",
+    gender : 0,
     uid : "",
 });
 
 const user4Register = () => {
     alert("등록 진입...1");
-    axios.post()
+    axios
+    .post("http://localhost:8089/Ch09/user4", user4)
     .then((response)=>{
         alert("등록 완료...");
         router.push("http://localhost:8089/Ch09/user4", user4)

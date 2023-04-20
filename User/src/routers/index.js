@@ -17,6 +17,8 @@ import User3Modify from "../components/user3/User3Modify.vue";
 
 import User4Main from "../components/user4/User4Main.vue";
 import User4Register from "../components/user4/User4Register.vue";
+import User4List from "../components/user4/User4List.vue";
+import User4Modify from "../components/user4/User4Modify.vue";
 
 
 import User5Main from "../components/user5/User5Main.vue";
@@ -63,9 +65,9 @@ const router = createRouter({
             name: "user4", 
             component : User4Main,
             children : [
-                {path : "user4Register", name : "user4Regi", component : User4Register},
-                //{path : "user4List", name : "user4list", component : User4List},
-                //{path : "user4Modify", name : "user4modi", component : User4Modify},
+                {path : "user4Register", component : User4Register},
+                {path : "user4List", component : User4List},
+                {path : "user4Modify", name : "user4modi", component : User4Modify, props: true},
             ]
         },
         {path : "/user5", name: "user5", component : User5Main},
