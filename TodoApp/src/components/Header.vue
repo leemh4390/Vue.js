@@ -16,6 +16,7 @@ export default {
     const newTodo = ref("");
 
     const btnAddTodo = () => {
+      console.log("버튼 클릭..!")
       if(newTodo.value !== ""){
         const inputValue = newTodo.value && newTodo.value.trim();
         context.emit("addTodo", inputValue);

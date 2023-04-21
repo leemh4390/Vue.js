@@ -22,7 +22,17 @@ import User4Modify from "../components/user4/User4Modify.vue";
 
 
 import User5Main from "../components/user5/User5Main.vue";
+import User5Register from "../components/user5/User5Register.vue";
+import User5List from "../components/user5/User5List.vue";
+import User5Modify from "../components/user5/User5Modify.vue";
+
+
 import User6Main from "../components/user6/User6Main.vue";
+import User6Register from "../components/user6/User6Register.vue";
+import User6List from "../components/user6/User6List.vue";
+import User6Modify from "../components/user6/User6Modify.vue";
+
+
 import User7Main from "../components/user7/User7Main.vue";
 
 
@@ -70,9 +80,39 @@ const router = createRouter({
                 {path : "user4Modify", name : "user4modi", component : User4Modify, props: true},
             ]
         },
-        {path : "/user5", name: "user5", component : User5Main},
-        {path : "/user6", name: "user6", component : User6Main},
-        {path : "/user7", name: "user7", component : User7Main},
+        {
+            path : "/user5", 
+            name: "user5", 
+            component : User5Main,
+            children : [
+                {path : "user5Register", component: User5Register},
+                {path : "user5List", component: User5List},
+                {path : "user5Modify", name : "user5Modify123", component : User5Modify, props:true},
+            ]
+        },
+
+        {
+            path : "/user6", 
+            name: "user6", 
+            component : User6Main,
+            children : [
+                {path : "user6Register", component : User6Register},
+                {path : "user6List", component : User6List},
+                {path : "user6Modify", name:"user6Modify",component : User6Modify},
+            ]
+
+        },
+
+        /*{
+            path : "/user7", 
+            name: "user7", 
+            component : User7Main,
+            children : [
+                {},
+                {},
+                {},
+            ]
+        },*/
     ],
 });
 
