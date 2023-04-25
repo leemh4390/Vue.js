@@ -39,12 +39,32 @@
                     </v-row>
                     <v-row>
                         <v-col cols="10">
-                            <v-textarea label="댓글내용" variant="outlined" hide-details="true" rows="10"></v-textarea>
+                            <v-textarea 
+                            label="댓글내용" 
+                            variant="outlined" 
+                            hide-details="true" 
+                            rows="2"
+                            >
+                            </v-textarea>
                         </v-col>
                         <v-col cols="2">
-                            <v-btn>댓글등록</v-btn>
+                            <v-btn color="success">댓글등록</v-btn>
                         </v-col>
                     </v-row>
+                </v-sheet>
+                <v-sheet class="mx-auto d-flex justify-center mt-10">
+                    <v-card
+                        width="800"
+                        title="댓글 작성자"
+                        text="댓글내용"
+                    ></v-card>
+                </v-sheet>
+                <v-sheet class="mx-auto d-flex justify-center mt-3">
+                    <v-card
+                        width="800"
+                        title="댓글 작성자"
+                        text="댓글내용"
+                    ></v-card>
                 </v-sheet>
             </v-container>
         </v-main>
