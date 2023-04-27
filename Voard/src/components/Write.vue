@@ -1,54 +1,77 @@
 <template>
-    <v-app>
-       <v-app-bar>
-            <v-spacer></v-spacer>
-            <v-app-bar-title>게시글 작성</v-app-bar-title>
-       </v-app-bar> 
-       <v-main>
-            <v-container>
-                <v-sheet max-width="800" class="mx-auto mt-5">
-                    <v-row>
-                        <v-col cols="8" border>
-                            <v-text-field 
-                                variant="outlined" 
-                                label="제목"
-                                hide-details="true" 
-                                density="compact"
-                                >           
-                                제목입니다.             
-                            </v-text-field> 
-                        </v-col>
-                        <v-col cols="4" border></v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col cols="4">
-                            <v-select
-                                class=""
-                                label="카테고리"
-                                :items="['한식', '일식', '중식', '양식', '잡식']"
-                                variant="solo"
-                            ></v-select>
-                        </v-col>
-                        <v-col cols="8"></v-col>
-                    </v-row>
-                    <v-textarea 
-                        label="내용" 
-                        variant="outlined" 
-                        hide-details="true" 
-                        rows="10"                        
-                        v-model="content"
-                        readonly="readonly"
-                        >
-                    </v-textarea>  
-                </v-sheet>
-                <v-sheet max-width="800" class="mx-auto text-right pt-4">
-                    <v-btn class="mr-2">취소</v-btn>
-                    <v-btn color="success">등록</v-btn>
-                </v-sheet>
-            </v-container>
-       </v-main>
-       <v-footer app color="grey">copyright &copy;Voard v1.0</v-footer>
-    </v-app>
+  <v-app>
+    <v-app-bar>
+      <v-app-bar-title>글쓰기</v-app-bar-title>
+      <v-btn @click="btnLogout">로그아웃</v-btn>
+    </v-app-bar>
+    <v-main>
+      <v-container>
+        <v-sheet max-width="800" class="mx-auto">
+          <v-text-field
+            label="제목입력"
+            variant="outlined"
+            v-model="article.title"
+          ></v-text-field>
+          <v-textarea
+            label="내용입력"
+            variant="outlined"
+            rows="12"
+            v-model="article.content"
+          ></v-textarea>
+          <v-file-input label="파일첨부" variant="outlined"></v-file-input>
+          <v-sheet class="text-right">
+            <v-btn @click="btnCancel">취소</v-btn>
+            <v-btn color="primary" @click="btnWrite" class="ml-2">글등록</v-btn>
+          </v-sheet>
+        </v-sheet>
+        <v-dialog v-model="dialog" width="auto">
+          <v-card>
+            <v-card-text> 등록완료! </v-card-text>
+            <v-card-actions>
+              <v-btn color="primary" block @click="dialog = false">닫기</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
-<script setup></script>
-<style></style>
+<script setup>
+import { reactive, ref } from "vue";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+import axios from "axios";
+const router = useRouter();
+const userStore = useStore();
+const article = reactive({
+  title: null,
+  content: null,
+  uid: null,
+});
+
+const dialog = ref(false);
+
+const btnCancel = () => {
+  router.push("/list");
+};
+const btnWrite = () => {
+  const user = userStore.getters.user;
+  article.uid = user.uid;
+  axios
+    .post("http://localhost:8080/Voard/write", article)
+    .then((response) => {
+      console.log(response);
+      if (response.data > 0) {
+        dialog.value = true;
+        setTimeout(() => {
+          router.push("/list");
+        }, 1000);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  //
+};
+</script>
+<style scoped></style>

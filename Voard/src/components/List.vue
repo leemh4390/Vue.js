@@ -3,7 +3,7 @@
     <v-app-bar>
       <v-app-bar-title>글목록</v-app-bar-title>
       <p>
-        {{ user?.nick }} 님 반갑습니다.
+        {{ user?.nick }}님 반갑습니다.
         <v-btn @click="btnLogout">로그아웃</v-btn>
       </p>
     </v-app-bar>
@@ -21,28 +21,12 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="text-center">1</td>
-                <td class="text-center" @click="btnView">
-                  <a href="#" style="text-decoration: none">제목</a>
-                </td>
-                <td class="text-center">글쓴이</td>
-                <td class="text-center">1</td>
-                <td class="text-center">2023/04/25</td>
-              </tr>
-              <tr>
-                <td class="text-center">1</td>
-                <td class="text-center" @click="btnView">제목</td>
-                <td class="text-center">글쓴이</td>
-                <td class="text-center">1</td>
-                <td class="text-center">2023/04/25</td>
-              </tr>
-              <tr>
-                <td class="text-center">1</td>
-                <td class="text-center" @click="btnView">제목</td>
-                <td class="text-center">글쓴이</td>
-                <td class="text-center">1</td>
-                <td class="text-center">2023/04/25</td>
+              <tr v-for="(article, index) in state.data.articles">
+                <td class="text-center">{{ state.pageStartNum - index }}</td>
+                <td class="text-left">{{ article.title }}</td>
+                <td class="text-center">{{ article.nick }}</td>
+                <td class="text-center">{{ article.hit }}</td>
+                <td class="text-center">{{ article.rdate }}</td>
               </tr>
             </tbody>
           </v-table>
@@ -50,30 +34,37 @@
             <v-btn color="primary" @click="btnWrite">글쓰기</v-btn>
           </v-sheet>
           <v-pagination
-            :length="5"
+            :length="state.lastPageNum"
             :total-visible="5"
             rounded="circle"
+            v-model="page"
+            @click="pageHandler"
+            @next="pageHandler"
+            @prev="pageHandler"
           ></v-pagination>
         </v-sheet>
       </v-container>
     </v-main>
-    <v-footer></v-footer>
+    <v-footer app theme="dark">copyright &copy;Voard v1.0</v-footer>
   </v-app>
 </template>
-
 <script setup>
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import { computed } from "vue";
+import { ref, reactive, computed, onBeforeMount } from "vue";
+import axios from "axios";
 
 const router = useRouter();
-const store = useStore();
+const userStore = useStore();
 
-const btnView = () => {
-  router.push("/view");
-};
+const user = computed(() => userStore.getters.user);
 
-const user = computed(() => store.getters.user);
+const state = reactive({
+  data: {},
+  pageStartNum: 0,
+  lastPageNum: 0,
+});
+const page = ref(1);
 
 const btnLogout = () => {
   localStorage.removeItem("accessToken");
@@ -83,9 +74,28 @@ const btnLogout = () => {
 const btnWrite = () => {
   router.push("/write");
 };
+
+const pageHandler = () => {
+  getArticles(page.value);
+};
+
+const getArticles = (pg) => {
+  axios
+    .get("http://localhost:8080/Voard/list?pg=" + pg)
+    .then((response) => {
+      console.log(response);
+      const data = response.data;
+      state.data = data;
+      state.pageStartNum = data.pageStartNum;
+      state.lastPageNum = data.lastPageNum;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+onBeforeMount(() => {
+  getArticles(1);
+});
 </script>
-<style>
-a:hover {
-  text-decoration: underline;
-}
-</style>
+<style scoped></style>
